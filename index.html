@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+	<title>Demo</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+	<div class="container mt-4">
+		<div class="form-group">
+			<label for="username">Username:</label>
+			<input type="text" name="username" id="username" class="form-control" placeholder="username">
+		</div>
+		<div class="form-group">
+			<label for="password">Password:</label>
+			<input type="password" class="form-control" name="password" id="password" placeholder="password">
+		</div>
+		<button class="btn btn-primary" onclick="getAPI()">Submit</button>
+		<p id="result" class="mt-4"></p>
+	</div>
+
+
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		let listUser = [];
+
+		window.addEventListener('load',async function() {
+			await axios.get('https://5dcdf496d795470014e4d45d.mockapi.io/api/users')
+				.then(res => {
+					res.data.map(item => {
+						listUser.push(item);
+					})
+				})
+				.catch(err => console.log(err));    
+		})
+
+		let result = document.getElementById('result');
+		let user = document.getElementById('username');
+		let pw = document.getElementById('password');
+
+
+		function getAPI() {
+			let index = listUser.findIndex(item => {
+				return item.name === user.value && item.password === pw.value;
+			});
+			console.log(index);
+			if(index > -1) {
+				result.innerHTML = 'Đăng nhập thành công';
+				return;
+			} 
+			result.innerHTML = 'Đăng nhập thất bại';
+			
+		}
+	</script>
+</body>
+</html>
